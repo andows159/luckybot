@@ -1,19 +1,22 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
-import random
+from random import randint
 
 #mainclass
 class XavierBot:
-    def __init__(self,username,password,accounts,url,time):
+    def __init__(self,username,password,accounts,post,time):
         print(accounts[1])
-        self.url = url
+        self.comment = accounts
         self.time = time
         self.username = username
         self.password = password
-        self.console_display()
+        #self.console_display()
         self.isvisible()
         self.login()
+        sleep(3 * self.time)
+        self.driver.get(post)
+        self.comment_on_post(accounts)
 
 
     def console_display(self):
@@ -27,10 +30,12 @@ class XavierBot:
         elif visible_answer == "2":
             self.visible = False
             print("Running on hidden mode...")
+        self.time = int(input('how is your internet today? (press "1" for normal, "2,3,4" if is slow'))
 
     #the browser is visible ?
     def isvisible(self):
-        visible = self.visible
+        visible = True
+        #visible = self.visible
         if visible:
             self.driver = webdriver.Chrome()
         else:
@@ -41,7 +46,7 @@ class XavierBot:
     def login(self):
         driver = self.driver
         driver.get("https://www.instagram.com")
-        sleep(10 * self.time)
+        sleep(4 * self.time)
         login_box = driver.find_element_by_xpath('//input[@name="username"]')
         password_box = driver.find_element_by_xpath('//input[@name="password"]')
         login_box.click()
@@ -53,14 +58,24 @@ class XavierBot:
         log_button = driver.find_element_by_xpath('//button[@type="submit"]')
         log_button.click()
 
+    def write_as_human(self,single_input_field):
+        for letter in self.comment:
+            single_input_field.send_keys(letter)
+            sleep(randint(1, 5) / 30)
+
     def comment_on_post(self, comment):
-        sleep(2 * self.time)
-        self.driver.get(self.url)
-        for element in comment:
-            #comment
+        sleep(3 * self.time)
+        driver = self.driver
+        #driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
+        comment_box.click()
+        comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
+       
+        comment_box.send_keys(self.comment)
+        #self.write_as_human(comment_box)
+        #for element in comment:
             
-
-
+            
 
 
 
