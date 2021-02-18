@@ -5,10 +5,10 @@ from random import randint
 
 #mainclass
 class XavierBot:
-    def __init__(self,username,password,accounts,post,time):
-        print(accounts[1])
-        self.comment = accounts
+    def __init__(self,username,password,set,post,time):
+        print(set[0],set[1],set[2])
         self.time = time
+        self.post = post
         self.username = username
         self.password = password
         #self.console_display()
@@ -16,7 +16,7 @@ class XavierBot:
         self.login()
         sleep(3 * self.time)
         self.driver.get(post)
-        self.comment_on_post(accounts)
+        self.comment_on_post(set)
 
 
     def console_display(self):
@@ -38,6 +38,7 @@ class XavierBot:
         #visible = self.visible
         if visible:
             self.driver = webdriver.Chrome()
+            self.driver.set_window_size(1280,720)
         else:
             options = webdriver.ChromeOptions()
             options.add_argument("--headless")
@@ -59,20 +60,41 @@ class XavierBot:
         log_button.click()
 
     def write_as_human(self,single_input_field):
-        for letter in self.comment:
+        for letter in self.set[self.count]:
             single_input_field.send_keys(letter)
             sleep(randint(1, 5) / 30)
 
-    def comment_on_post(self, comment):
+    def comment_on_post(self, set):
+        self.set = set
         sleep(3 * self.time)
         driver = self.driver
-        #driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
-        comment_box.click()
-        comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
-       
-        comment_box.send_keys(self.comment)
-        #self.write_as_human(comment_box)
+        
+        
+        try:
+            self.count = 0
+            for set[self.count] in range(len(set)):
+                comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
+                comment_box.click()
+                comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
+                self.write_as_human(comment_box)
+                print(self.set[self.count])
+                self.count += 1
+        except:
+            print("pagina não econtrada tentando novamente")
+            self.driver.get(self.post)
+            sleep(3 * self.time)
+            self.count = 0
+            for set[self.count] in range(len(set)):
+                comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
+                comment_box.click()
+                comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
+                self.write_as_human(comment_box)
+                print(self.set[self.count])
+                self.count += 1
+
+            
+            #comment_box.send_keys(self.comment)
+        
         #for element in comment:
             
             
