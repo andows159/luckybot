@@ -7,6 +7,7 @@ import random
 class XavierBot:
     def __init__(self,username,password,accounts,url,time):
         print(accounts[1])
+        self.url = url
         self.time = time
         self.username = username
         self.password = password
@@ -52,10 +53,16 @@ class XavierBot:
         log_button = driver.find_element_by_xpath('//button[@type="submit"]')
         log_button.click()
 
+    def comment_on_post(self, comment):
+        sleep(2 * self.time)
+        self.driver.get(self.url)
+        for element in comment:
+            #comment
+            
 
 
 
 
 
 
-instance = XavierBot("vlogueirosinsanosoficial@gmail.com","riacho2020",["@diegocunha9","@_laerton2","@tavares_r_"],'https://www.instagram.com/p/CF-R42TAlsW/',1)
+a = XavierBot("vlogueirosinsanosoficial@gmail.com","riacho2020",["@diegocunha9","@_laerton2","@tavares_r_"],'https://www.instagram.com/p/CF-R42TAlsW/',1)
