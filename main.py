@@ -6,7 +6,6 @@ from random import randint
 #mainclass
 class XavierBot:
     def __init__(self,username,password,set,post,time):
-        print(set[0],set[1],set[2])
         self.time = time
         self.post = post
         self.username = username
@@ -59,47 +58,44 @@ class XavierBot:
         log_button = driver.find_element_by_xpath('//button[@type="submit"]')
         log_button.click()
 
-    def write_as_human(self,single_input_field):
-        for letter in self.set[self.count]:
-            single_input_field.send_keys(letter)
-            sleep(randint(1, 5) / 30)
-
     def comment_on_post(self, set):
         self.set = set
+        count = 0
+        set = [f'test{count}',f'test{count}',f'test{count}']
         sleep(3 * self.time)
         driver = self.driver
-        
-        
-        try:
-            self.count = 0
-            for set[self.count] in range(len(set)):
-                comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
-                comment_box.click()
-                comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
-                self.write_as_human(comment_box)
-                print(self.set[self.count])
-                self.count += 1
-        except:
-            print("pagina não econtrada tentando novamente")
-            self.driver.get(self.post)
-            sleep(3 * self.time)
-            self.count = 0
-            for set[self.count] in range(len(set)):
-                comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
-                comment_box.click()
-                comment_box = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea')
-                self.write_as_human(comment_box)
-                print(self.set[self.count])
-                self.count += 1
+        sleep(3 * self.time)
 
-            
-            #comment_box.send_keys(self.comment)
-        
-        #for element in comment:
+        comment_box = driver.find_element_by_xpath('//textarea[@class="Ypffh"]')
+        comment_box.click()
+        comment_box = driver.find_element_by_xpath('//textarea[@class="Ypffh focus-visible"]')
+        #comment_box.send_keys(set)
+        while True:
             
             
+            for account in set:
+                count += 1
+                set = [f'test{count}',f'test{count}',f'test{count}']
+                
+                for letter in account:
+                    comment_box.send_keys(letter)
+                    sleep((randint(1,6) /30))
+
+                button = driver.find_element_by_xpath('//button[@type="submit"]')
+                button.click()
+                sleep((randint(45,60)) * self.time)
+                comment_box = driver.find_element_by_xpath('//textarea[@class="Ypffh"]')
+                try:
+                    comment_box.click()
+                    
+                except:
+                    print("Elemento bloqueado")
+                comment_box = driver.find_element_by_xpath('//textarea[@class="Ypffh focus-visible"]')
+                
+                
+            
 
 
 
 
-a = XavierBot("vlogueirosinsanosoficial@gmail.com","riacho2020",["@diegocunha9","@_laerton2","@tavares_r_"],'https://www.instagram.com/p/CF-R42TAlsW/',1)
+a = XavierBot("vlogueirosinsanosoficial@gmail.com","riacho2020",["teste1","teste2","teste3"],'https://www.instagram.com/p/CLagk0IB1C8/',1)
