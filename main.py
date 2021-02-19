@@ -74,8 +74,7 @@ class XavierBot:
             
             
             for account in set:
-                count += 1
-                set = [f'test{count}',f'test{count}',f'test{count}']
+               
                 
                 for letter in account:
                     comment_box.send_keys(letter)
@@ -87,6 +86,8 @@ class XavierBot:
                 comment_box = driver.find_element_by_xpath('//textarea[@class="Ypffh"]')
                 try:
                     comment_box.click()
+                    count += 1
+                    set = [f'test{count}',f'test{count}',f'test{count}']
                     
                 except:
                     print("Elemento bloqueado")
