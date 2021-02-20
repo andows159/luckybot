@@ -8,14 +8,22 @@ class XavierBot:
     def __init__(self,username,password,set,post,time):
         self.time = time
         self.post = post
+        self.set = set
         self.username = username
         self.password = password
         #self.console_display()
+        self.start()
+       
+
+    def start(self):
+
         self.isvisible()
         self.login()
-        sleep(3 * self.time)
-        self.driver.get(post)
-        self.comment_on_post(set)
+        try:
+            self.comment_on_post(self.set)
+        except:
+            self.comment_on_post(self.set)
+
 
 
     def console_display(self):
@@ -36,8 +44,12 @@ class XavierBot:
         visible = True
         #visible = self.visible
         if visible:
-            self.driver = webdriver.Chrome()
-            self.driver.set_window_size(1280,720)
+            
+            options = webdriver.ChromeOptions()
+            options.add_argument("--start-maximized")
+            #options.add_argument("--headless")
+            self.driver = webdriver.Chrome(chrome_options=options)
+            
         else:
             options = webdriver.ChromeOptions()
             options.add_argument("--headless")
@@ -57,11 +69,19 @@ class XavierBot:
         password_box.send_keys(self.password)
         log_button = driver.find_element_by_xpath('//button[@type="submit"]')
         log_button.click()
-
+    def browse_to_post(self,post,verification):
+        sleep(3 * self.time)
+        driver = self.driver
+        driver.get(post)
+        sleep(2 * self.time )
+        try:
+            driver.find_element_by_xpath(verification)
+        except:
+            print("elementos não econtrados, recarregando...")
+            driver.get(post)
     def comment_on_post(self, set):
+        self.browse_to_post(self.post,'//button[@type="submit"]')
         self.set = set
-        count = 0
-        set = [f'test{count}',f'test{count}',f'test{count}']
         sleep(3 * self.time)
         driver = self.driver
         sleep(3 * self.time)
@@ -72,22 +92,22 @@ class XavierBot:
         #comment_box.send_keys(set)
         while True:
             
-            
             for account in set:
-               
+                
                 
                 for letter in account:
                     comment_box.send_keys(letter)
-                    sleep((randint(1,6) /30))
+                    sleep((randint(3,30) /30)) 
 
                 button = driver.find_element_by_xpath('//button[@type="submit"]')
                 button.click()
-                sleep((randint(45,60)) * self.time)
+                print(f"account {account} commented on post {self.post}")
+               
+                sleep((randint(10,20)) * self.time)
                 comment_box = driver.find_element_by_xpath('//textarea[@class="Ypffh"]')
                 try:
                     comment_box.click()
-                    count += 1
-                    set = [f'test{count}',f'test{count}',f'test{count}']
+                    
                     
                 except:
                     print("Elemento bloqueado")
@@ -98,5 +118,7 @@ class XavierBot:
 
 
 
+class Console(XavierBot):
+    pass
 
-a = XavierBot("vlogueirosinsanosoficial@gmail.com","riacho2020",["teste1","teste2","teste3"],'https://www.instagram.com/p/CLagk0IB1C8/',1)
+a = XavierBot("vlogueirosinsanosoficial@gmail.com","riacho2020",["@_laerton2","@tavares_r_","tavares boi"],'https://www.instagram.com/p/CLagk0IB1C8/',1)
