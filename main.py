@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 from random import randint
 from PyQt5 import uic, QtWidgets
+import platform
 
 #mainclass
 class BackEnd:
@@ -37,19 +38,44 @@ class BackEnd:
 
     #the browser is visible ?
     def isvisible(self):
-        visible = True
-        #visible = self.visible
-        if visible:
+        
+        if platform.system() == "Windows":
             
-            #options = webdriver.ChromeOptions()
-            #options.add_argument("--start-maximized")
-            #options.add_argument("--headless")
-            self.driver = webdriver.Chrome(executable_path=r'.\chromedriver.exe',)
             
-        else:
-            options = webdriver.ChromeOptions()
-            options.add_argument("--headless")
-            self.driver = webdriver.Chrome(chrome_options=options)
+            visible = True
+            #visible = self.visible
+            if visible:
+                
+                #options = webdriver.ChromeOptions()
+                #options.add_argument("--start-maximized")
+                #options.add_argument("--headless")
+                self.driver = webdriver.Chrome(executable_path=r'.\chromedriver.exe',)
+                
+            else:
+                options = webdriver.ChromeOptions()
+                options.add_argument("--headless")
+                self.driver = webdriver.Chrome(chrome_options=options)
+        elif platform.system() == "Linux":
+                 
+            visible = True
+            #visible = self.visible
+            if visible:
+                
+                #options = webdriver.ChromeOptions()
+                #options.add_argument("--start-maximized")
+                #options.add_argument("--headless")
+                self.driver = webdriver.Chrome()
+                
+            else:
+                options = webdriver.ChromeOptions()
+                options.add_argument("--headless")
+                self.driver = webdriver.Chrome(chrome_options=options)
+
+
+
+
+
+
 
     def login(self):
         driver = self.driver
